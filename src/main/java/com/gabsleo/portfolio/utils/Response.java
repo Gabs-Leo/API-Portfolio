@@ -8,6 +8,9 @@ public class Response <T>{
     private List<String> errors = new ArrayList<>();
 
     public Response() {}
+    public Response(T content) {
+        this.content = content;
+    }
     public Response(T content, List<String> errors) {
         this.content = content;
         this.errors = errors;

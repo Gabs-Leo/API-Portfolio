@@ -1,17 +1,23 @@
-package com.gabsleo.portfolio.security;
+package com.gabsleo.portfolio.configurations;
 
+import com.gabsleo.portfolio.security.AccessDeniedHandler;
+import com.gabsleo.portfolio.security.AuthenticationEntrypoint;
+import com.gabsleo.portfolio.security.JwtAuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
+@SuppressWarnings("removal")
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
@@ -31,19 +37,28 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/api/v1/auth/**").permitAll()
-                        .requestMatchers("/api/v1/admin/**").hasAuthority(Roles.ADMIN.toString())
-                        .anyRequest().authenticated()
-                )
-                .exceptionHandling(exep ->
-                        exep.accessDeniedHandler(accessDeniedHandler)
-                )
-                //.authenticationEntryPoint(authenticationEntrypoint)
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .csrf()
+                .disable()
+                .authorizeHttpRequests()
+                .requestMatchers("/api/v1", "/api/v1/auth/login")
+                .permitAll()
+                .requestMatchers("/api/v1/admin/**", "/api/v1/auth/register", "/api/v1/auth/hello-adm").hasAnyAuthority("ADMIN")
+                .requestMatchers("/api/v1/folders/**").hasAnyAuthority("ADMIN", "USER")
+                .anyRequest()
+                .authenticated()
+                .and()
+                .exceptionHandling().accessDeniedHandler(accessDeniedHandler)
+                .authenticationEntryPoint(authenticationEntrypoint)
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
+
     }
+
+
+
 }

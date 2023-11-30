@@ -18,10 +18,6 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-    private int days(int days){
-        return 1000 * 60 * (days*24);
-    }
-
     @Value("${env.SECRET_KEY}")
     private String SECRET_KEY;
 
@@ -98,4 +94,5 @@ public class JwtService {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
     }
+
 }
