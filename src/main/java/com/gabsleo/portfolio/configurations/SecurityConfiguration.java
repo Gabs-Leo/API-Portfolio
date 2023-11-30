@@ -40,9 +40,13 @@ public class SecurityConfiguration {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/v1", "/api/v1/auth/login")
+                .requestMatchers("/api/v1", "/api/v1/auth/login", "/api/v1/emails")
                 .permitAll()
-                .requestMatchers("/api/v1/admin/**", "/api/v1/auth/register", "/api/v1/auth/hello-adm", "/api/v1/projects/**").hasAnyAuthority("ADMIN")
+                .requestMatchers(
+                        "/api/v1/admin/**",
+                        "/api/v1/auth/register",
+                        "/api/v1/auth/hello-adm",
+                        "/api/v1/projects/**").hasAnyAuthority("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()

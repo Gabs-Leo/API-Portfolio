@@ -5,6 +5,7 @@ env:
   JWT_EXPIRATION_TIME: ${JWT_EXPIRATION_TIME}
   ADM_USER: ${ADM_USER}
   ADM_PASSWORD: ${ADM_PASSWORD}
+  EMAIL_TARGET: ${EMAIL_TARGET}
 spring:
   datasource:
     url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
@@ -15,3 +16,14 @@ spring:
     hibernate:
       ddl-auto: update
     databasePlatform: org.hibernate.dialect.PostgreSQLDialect
+  mail:
+    host: ${EMAIL_HOST}
+    port: ${EMAIL_PORT}
+    username: ${EMAIL_USER}
+    password: ${EMAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
