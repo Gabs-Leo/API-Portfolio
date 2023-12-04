@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/projects")
+@RequestMapping("/api/v1")
+@CrossOrigin("*")
 public class ProjectController {
     private final ProjectService projectService;
 
@@ -20,12 +21,12 @@ public class ProjectController {
         this.projectService = projectService;
     }
 
-    @GetMapping
+    @GetMapping("/projects")
     public ResponseEntity<Response<List<Project>>> findAll(){
         return ResponseEntity.ok(new Response<>(projectService.findAll()));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/projects/{id}")
     public ResponseEntity<Response<Project>> findById(@PathVariable Long id){
         Response<Project> response = new Response<>();
         if(projectService.findById(id).isEmpty()){
@@ -36,14 +37,14 @@ public class ProjectController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping
+    @PostMapping("/admin/projects")
     public ResponseEntity<Response<Project>> save(@RequestBody Project project){
         Response<Project> response = new Response<>();
         response.setContent(projectService.save(project));
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/admin/projects/{id}")
     public ResponseEntity<Response<ProjectDto>> update(@PathVariable Long id, @RequestBody ProjectDto projectDto){
         Response<ProjectDto> response = new Response<>();
         if(projectService.findById(id).isEmpty()){
@@ -58,7 +59,7 @@ public class ProjectController {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/projects/{id}")
     public ResponseEntity<Response<String>> delete(@PathVariable Long id){
         Response<String> response = new Response<>();
         if(projectService.findById(id).isEmpty()){

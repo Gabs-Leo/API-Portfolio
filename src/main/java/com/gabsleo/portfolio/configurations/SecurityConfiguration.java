@@ -16,7 +16,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-
 @SuppressWarnings("removal")
 @Configuration
 @EnableWebSecurity
@@ -40,7 +39,7 @@ public class SecurityConfiguration {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/v1", "/api/v1/auth/login", "/api/v1/emails")
+                .requestMatchers("/api/v1", "/api/v1/auth/login", "/api/v1/emails", "/api/v1/projects/**")
                 .permitAll()
                 .requestMatchers(
                         "/api/v1/admin/**",
@@ -50,9 +49,9 @@ public class SecurityConfiguration {
                 .anyRequest()
                 .authenticated()
                 .and()
-                .exceptionHandling().accessDeniedHandler(accessDeniedHandler)
-                .authenticationEntryPoint(authenticationEntrypoint)
-                .and()
+                //.exceptionHandling().accessDeniedHandler(accessDeniedHandler)
+                //.authenticationEntryPoint(authenticationEntrypoint)
+                //.and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
