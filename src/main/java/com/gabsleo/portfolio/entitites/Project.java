@@ -13,15 +13,13 @@ public class Project {
     private String name;
     private String description;
     private String repositoryUrl;
-    private String imageUrl;
 
     public Project() {}
-    public Project(Long id, String name, String description, String repositoryUrl, String imageUrl) {
+    public Project(Long id, String name, String description, String repositoryUrl) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.repositoryUrl = repositoryUrl;
-        this.imageUrl = imageUrl;
     }
 
     public Long getId() {
@@ -54,13 +52,5 @@ public class Project {
 
     public void setRepositoryUrl(String repositoryUrl) {
         this.repositoryUrl = repositoryUrl;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
     }
 }
