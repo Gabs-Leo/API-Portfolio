@@ -39,8 +39,7 @@ public class ProjectService {
                 project.getId(),
                 project.getName(),
                 project.getDescription(),
-                project.getRepositoryUrl(),
-                project.getImageUrl()
+                project.getRepositoryUrl()
         );
     }
 
@@ -49,8 +48,7 @@ public class ProjectService {
                 projectDto.id(),
                 projectDto.name(),
                 projectDto.description(),
-                projectDto.repositoryUrl(),
-                projectDto.imageUrl()
+                projectDto.repositoryUrl()
         );
     }
 
@@ -58,7 +56,6 @@ public class ProjectService {
         projectOld.setName(projectNew.getName());
         projectOld.setDescription(projectNew.getDescription());
         projectOld.setRepositoryUrl(projectNew.getRepositoryUrl());
-        projectOld.setImageUrl(projectNew.getImageUrl());
 
         return projectOld;
     }
