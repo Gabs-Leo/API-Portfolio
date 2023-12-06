@@ -6,15 +6,18 @@ import com.gabsleo.portfolio.security.JwtAuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.filter.CorsFilter;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.core.Ordered;
+import java.util.Arrays;
 
 @SuppressWarnings("removal")
 @Configuration
@@ -61,6 +64,22 @@ public class SecurityConfiguration {
 
     }
 
+    @Bean
+    public CorsFilter corsFilter(){
+        var config = new CorsConfiguration();
+        config.setAllowedMethods(Arrays.asList("*"));
+        config.setAllowedOriginPatterns(Arrays.asList("*"));
+        config.setAllowedHeaders(Arrays.asList("*"));
+        config.setAllowCredentials(true);
 
+        var source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+
+        var corsFilter = new CorsFilter(source);
+            var filter = new FilterRegistrationBean<CorsFilter>(corsFilter);
+        filter.setOrder(Ordered.HIGHEST_PRECEDENCE);
+
+        return corsFilter;
+    }
 
 }

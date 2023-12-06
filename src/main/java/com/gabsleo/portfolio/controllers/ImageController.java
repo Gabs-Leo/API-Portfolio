@@ -12,6 +12,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/v1")
+@CrossOrigin("*")
 public class ImageController {
     private final CloudStorageService cloudStorageService;
 
